@@ -1,0 +1,18 @@
+#search{
+    width: 400px;
+    margin: 10px auto;
+}
+#title-history{
+    text-align: center
+}
+.content-history{
+    text-align: center;
+    border: dotted 2px gray;
+    width: 800px;
+    margin: 5px auto
+}
+.img-history{
+    border-radius: 20px;
+    width:200px;
+    height:200px
+}
