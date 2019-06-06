@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>历史上的今天</title>
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+    <style>
+        #search{
+            width: 400px;
+            margin: 10px auto;
+        }
+        #title-history{
+            text-align: center
+        }
+        .content-history{
+            text-align: center;
+            border: dotted 2px gray;
+            width: 800px;
+            margin: 5px auto
+        }
+        .img-history{
+            border-radius: 20px;
+            width:200px;
+            height:200px
+        }
+    </style>
+</head>
+<body>
+<div id="search">
+    <label for="date">请选择日期：</label>
+    <input type="date" id="date">
+    <button id="">查询</button>
+</div>
+<hr>
+<h1 id="title-history">历史上的今天</h1>
+<div id="content-fram">
+<div class="content-history">
+    <h2>中华人民共和国开国大典</h2>
+    <p>1949年10月1日</p>
+    <img class="img-history"src="http://juheimg.oss-cn-hangzhou.aliyuncs.com/toh/200410/1/46225444545.jpg">
+    <p>1949年10月1日 (农历八月初十)，中华人民共和国开国大典。</p>
+</div>
+</div>
+
+<script>
+    $(function () {
+        $("button").click(function(){
+            var date = $("input").val();
+            var fram=$("#content-fram");
+            $.get("./history.php?date="+date,function(data,status){
+                // 将json字符串转化为JavaScript Object
+                var response=JSON.parse(data);
+                var history=response.result;
+                if (response.error_code!=0){
+                    alert("未知错误，请稍后再尝试！");
+                }
+                // 重新选择日期时移除已有的历史事件
+                fram.empty();
+                // 遍历添加历史事件
+                for (var i in history) {
+                    var title=history[i].title;
+                    var year=history[i].year;
+                    var month=history[i].month;
+                    var day=history[i].day;
+                    var des=history[i].des;
+                    var pic=history[i].pic;
+                    if (pic==''){
+                        pic='./error.jpg';
+                    }
+                    // 显示历史事件的模板
+                    var str='<div class="content-history">'+
+                        '<h2>'+title+'</h2>'+
+                        '<p>'+year+'年'+month+'月'+day+'日</p>'+
+                        '<img class="img-history" src="'+pic+'">'+
+                        '<p>'+des+'</p>'+
+                        '</div>';
+                    fram.append(str);
+                }
+
+
+            });
+        });
+    })
+</script>
+</body>
+</html>
